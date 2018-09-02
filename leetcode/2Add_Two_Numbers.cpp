@@ -22,7 +22,6 @@ struct ListNode {
   int val;
   ListNode *next;
   ListNode(int x) : val(x), next(NULL) {}
-  
 };
 
 ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
@@ -51,10 +50,22 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
   if (carry != 0)
     current->next = new ListNode(carry);
 
-  return result->next;
+  current = result->next;
+  delete result;
+  return current;
+}
+
+void deleteListNode(ListNode* list) {
+  ListNode *t;
+  while (list) {
+    t = list;
+    list = list->next;
+    delete t;
+  }
 }
 
 int main() {
+
   ListNode *l1 = new ListNode(2);
   l1->next = new ListNode(4);
   l1->next->next = new ListNode(3);
@@ -65,8 +76,13 @@ int main() {
 
   ListNode *res = addTwoNumbers(l1, l2);
 
-  while (res != NULL) {
-    printf("%d, ", res->val);
-    res = res->next;
+  ListNode *cur = res;
+  while (cur != NULL) {
+    printf("%d, ", cur->val);
+    cur = cur->next;
   }
+
+  deleteListNode(l1);
+  deleteListNode(l2);
+  deleteListNode(res);
 }

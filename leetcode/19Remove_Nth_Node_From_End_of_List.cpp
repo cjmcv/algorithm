@@ -45,21 +45,28 @@ ListNode* removeNthFromEnd(ListNode* head, int n) {
   }
 
   // 4. Skip.
+  ListNode *temp = first->next;
   first->next = first->next->next;
+  delete temp;
+
   return head;
+}
+
+void deleteListNode(ListNode* list) {
+  ListNode *t;
+  while (list) {
+    t = list;
+    list = list->next;
+    delete t;
+  }
 }
 
 int main() {
   ListNode *head = new ListNode(1);
-  ListNode *a = new ListNode(2);
-  ListNode *b = new ListNode(3);
-  ListNode *c = new ListNode(4);
-  ListNode *d = new ListNode(5);
-
-  head->next = a;
-  a->next = b;
-  //b->next = c;
-  //c->next = d;
+  head->next = new ListNode(2);
+  head->next->next = new ListNode(3);
+  head->next->next->next = new ListNode(4);
+  head->next->next->next->next = new ListNode(5);
 
   ListNode *result = removeNthFromEnd(head, 1);
 
@@ -68,4 +75,6 @@ int main() {
     result = result->next;
   }
 
+  deleteListNode(head);
+  return 0;
 }
